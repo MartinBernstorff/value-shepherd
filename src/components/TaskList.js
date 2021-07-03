@@ -42,6 +42,7 @@ export default function TaskList(props) {
                             name={record.fields.name_string}
                             key={record.id}
                             id={record.id}
+                            endorsed={record.fields.Promotion}
                         />
                     ))
                 ) : (

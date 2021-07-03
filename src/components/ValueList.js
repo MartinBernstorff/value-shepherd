@@ -39,6 +39,8 @@ export default function ValueList(props) {
                         name={record.fields.Name}
                         key={record.id}
                         id={record.id}
+                        goals={record.fields["goal_string"]}
+                        promotion={record.fields["Promotion"]}
                     />
                 ))
             ) : (

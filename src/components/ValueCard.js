@@ -9,12 +9,25 @@ class ValueCard extends Component {
     propose = () => {
         var element = document.getElementById(this.props.id);
         element.style.opacity = "0.2";
+        console.log(this.props.name + " " + this.props.promotion)
         
         Values.update(this.props.id, {"Promotion": 1}).then(resp => {
             console.log(resp)
             
             element.style.borderColor = "yellow";
             element.style.borderWidth = "medium";
+        })
+    }
+
+    reverse = () => {
+        var element = document.getElementById(this.props.id);
+        element.style.opacity = "1";
+        
+        Values.update(this.props.id, {"Promotion": 0}).then(resp => {
+            console.log(resp)
+            
+            element.style.borderColor = "LightGray";
+            element.style.borderWidth = "thin";
         })
     }
 
@@ -28,19 +41,38 @@ class ValueCard extends Component {
     render() {
         return (
         <div>
-            <a href = {this.href} className="shadow-md hover:shadow-lg active:border-gray-500 group block rounded-lg p-4 border hover:border-gray-200 m-2 text-left justify-left text-justify" id={this.props.id}>
-                <div className="p-3 grid">
-                    <div className="font-medium text-black text-xl pb-2">{this.props.name}</div>
+            <a href = {this.href} className={"shadow-sm active:border-gray-500 group block rounded-lg p-4 hover:border-gray-300 m-2 text-left justify-left text-justify border " + (this.props.promotion > 0 ? "opacity-25" : "")} id={this.props.id}>
+                <div className="grid">
+                    <div className="font-medium text-black text-2xl mb-1">{this.props.name}</div>
                 </div>
-                <div className="grid grid-cols-3">
+
+                <div className="space-y-0">
+                    {'goals' in this.props && typeof this.props.goals !== "undefined" ? (
+                            this.props.goals
+                                .split(",")
+                                .map((goal) => (
+                                    <div className="inline-block rounded py-1 px-1 bg-gray-300 text-white mr-1" style={{fontSize: "0.6rem"}}>{goal}</div>
+                                ))
+                            ) : (
+                                ""
+                    )}
+                </div>
+
+                <div className="grid grid-cols-3 mt-2 space-x-2">
                     <button onClick={() => this.propose()}
-                            className= "rounded-lg px-2 py-1 border active:border-gray-500 m-2 text-center focus:outline-none shadow hover:shadow-md active:shadow-sm"
+                            className= {"rounded-lg px-2 py-2 active:border-gray-500 hover:border-gray-300 text-center focus:outline-none active:shadow-sm text-gray-400 text-sm " + (this.props.promotion > 0 ? "border-2 border-yellow-200" : "border")}
                         >
-                            Endorse
+                            {(this.props.promotion > 0 ? "Endorsed" : "Endorse")}
+                    </button>
+
+                    <button onClick={() => this.reverse()}
+                            className= "rounded-lg px-2 py-2 border active:border-gray-500 hover:border-gray-300 text-center focus:outline-none active:shadow-sm text-gray-400 text-sm"
+                        >
+                            Reverse
                     </button>
 
                     <button onClick={() => this.openInAt()}
-                            className= "rounded-lg px-2 py-1 border active:border-gray-500 m-2 text-center focus:outline-none shadow hover:shadow-md active:shadow-sm"
+                            className= "rounded-lg px-2 py-2 border active:border-gray-500 hover:border-gray-300 text-center focus:outline-none active:shadow-sm text-gray-400 text-sm"
                         >
                             Airtable
                     </button>

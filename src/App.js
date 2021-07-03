@@ -9,7 +9,7 @@ function App(props) {
   var show = 0
 
   return (
-    <div className="grid mx-auto max-w-3xl">
+    <div className="grid mx-auto max-w-5xl">
       <div className="grid place-items-center">
         <ValueList 
           filter="False"
